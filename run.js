@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 // Function to create Markov model from cleaned stories
-function makeMarkovModel(cleanedStories, nGram = 4) {
+function makeMarkovModel(cleanedStories, nGram = 5) {
   const markovModel = {};
 
   for (let i = 0; i < cleanedStories.length - nGram; i++) {
@@ -44,7 +44,7 @@ function makeMarkovModel(cleanedStories, nGram = 4) {
 }
 
 // Function to generate story based on Markov model and input
-function generateStory(model, input, nGram = 3, length = 10) {
+function generateStory(model, input, nGram = 5, length = 10) {
   let story = input.slice(); // Initialize the story with the input
   while (story.length < length) {
       let currState = story.slice(-nGram).join(" ");
@@ -74,12 +74,12 @@ function selectNextState(transitions) {
 }
 
 // Example usage:
-const cleanedStories = JSON.parse(fs.readFileSync('lower.json', 'utf8')); // Parse JSON data
+const cleanedStories = JSON.parse(fs.readFileSync('combo.json', 'utf8')); // Parse JSON data
 
-const nGram = 1;
-const model = makeMarkovModel(cleanedStories, nGram); // Generating the Markov model
+const nGram = 2;
+const model = makeMarkovModel(cleanedStories, 2); // Generating the Markov model
 
 // Generating the story based on the input ["the", "words", "you", "add"]
-const input = ["eat","this"]; // Initial input to start the story
-const generatedStory = generateStory(model, input, nGram, 8); // Generate the story
+const input = ["all", "people"]; // Initial input to start the story
+const generatedStory = generateStory(model, input, 2, 60); // Generate the story
 console.log("Generated Story:", generatedStory);
